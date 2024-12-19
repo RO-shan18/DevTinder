@@ -1,7 +1,7 @@
 const express = require("express");
 const authRouter = express.Router();
 const { Validate } = require("../utils/validate");
-const User = require("../models/Schema");
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 //creating an post api to save the user data to the database
