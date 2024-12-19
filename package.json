@@ -1,0 +1,25 @@
+{
+  "name": "devtinder",
+  "version": "1.0.0",
+  "description": "This is an Full Stack web application ",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/app.js"
+  },
+  "keywords": [
+    "NodeJs",
+    "MongoDB",
+    "ExpressJs"
+  ],
+  "author": "Roshan Mehra",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.4",
+    "moongoose": "^0.0.5",
+    "validator": "^13.12.0"
+  }
+}
