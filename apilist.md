@@ -11,11 +11,8 @@ patch /profile/edit
 patch /profile/password
 
 ## connectionRequestrouter
-POST /request/send/interested/:userid
-POST /request/send/ignored/:userid
-
-POSt /request/send/rejected/:userid
-POST /request/send/accepted/:userid
+POST /request/send/:status/:userid
+POST /request/review/:status/:requestid
 
 ## userrouter
 get /user/requests

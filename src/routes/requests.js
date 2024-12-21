@@ -54,4 +54,12 @@ requestRouter.post("/request/send/:status/:userid", UserAuth, async(req, res)=>{
    
  })
 
+requestRouter.post("/request/review/:status/:userid", UserAuth, async(req, res)=>{
+    try{
+        
+    }catch(err){
+        res.status(400).send("ERR: " + err);
+    }
+})
+
  module.exports = requestRouter;
