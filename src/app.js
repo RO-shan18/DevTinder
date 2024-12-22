@@ -10,10 +10,12 @@ app.use(cookieParser());
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/requests");
+const UserRouter = require("./routes/users");
 
 app.use("/", profileRouter);
 app.use("/", authRouter);
 app.use("/", requestRouter);
+app.use("/", UserRouter)
 
 /* app.patch("/user", async (req, res) => {
   const userid = req.body.id;
