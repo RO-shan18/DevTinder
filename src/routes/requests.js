@@ -60,39 +60,39 @@ requestRouter.post(
 );
 
 requestRouter.post(
-  "/request/review/:Status/:requestid",
+  "/request/review/:status/:requestid",
   UserAuth,
   async (req, res) => {
     try {
       //status is valid
       const loggedinUser = req.user;
-      const { Status, requestid } = req.params;
+      const { status, requestid } = req.params;
 
       //check whether the status is allowed or not
       const allowedstatus = ["accepted", "rejected"];
 
-      if (!allowedstatus.includes(Status)) {
+      if (!allowedstatus.includes(status)) {
         return res.status(400).json({ message: "Status is invalid" });
       }
 
       //loggedinUser : toUserId
       //status : interested
       //requestid should be present
-      const connectionrequest = await RequestConnection.find({
+      const requestconnection = await RequestConnection.findOne({
         _id: requestid,
         ToUserId: loggedinUser._id,
         Status: "interested"
       });
 
-      if (!connectionrequest) {
+      if (!requestconnection) {
         return res.status(400).json({ message: "User not found" });
       }
 
       //changing the status if all ore ok
-      connectionrequest.Status = Status;
-
+      requestconnection.Status = status;
+      console.log(requestconnection);
       //save to the database
-      const data = await connectionrequest.save();
+      const data = await requestconnection.save();
 
       res.json({ message: "It's a match", data });
     } catch (err) {

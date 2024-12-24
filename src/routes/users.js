@@ -1,6 +1,7 @@
 const express = require("express");
 const UserAuth = require("../middleware/auth");
 const RequestConnection = require("../models/requestconnection");
+const User = require("../models/User");
 const UserRouter = express.Router();
 
 UserRouter.get("/user/requests/received", UserAuth, async(req, res)=>{
@@ -49,6 +50,48 @@ UserRouter.get("/user/connections", UserAuth, async(req, res)=>{
         })
 
         res.send({message : data});
+    }catch(err){
+        res.status(400).send("ERR: " + err);
+    }
+})
+
+UserRouter.get("/feed", UserAuth, async(req, res)=>{
+    try{
+        const page = parseInt(req.query.page) || 1;
+        let limit = parseInt(req.query.limit) || 10;
+        const skip = (page * limit) - limit;
+
+        
+        limit = limit > 50 ? 50 : limit;
+        //loggedinUser
+        const LoggedinUser = req.user;
+
+        //feed card must not be
+        //=> connected to the loggedinUser
+        //=> send a request to the loggedinUser
+        //=> should not be yourself
+        const connectionrequest = await RequestConnection.find({
+            $or : [
+                {FromUserId : LoggedinUser._id},
+                {ToUserId : LoggedinUser._id}
+            ]
+        }).select("FromUserId ToUserId")
+
+        const hideusers = new Set();
+        connectionrequest.forEach((req)=>{
+            hideusers.add(req.FromUserId.toString());
+            hideusers.add(req.ToUserId.toString());
+        })
+
+        const users = await User.find({
+            $and : [
+                {_id : {$nin : Array.from(hideusers)}},
+                {_id : {$ne : {_id : LoggedinUser._id}}}
+            ]
+        }).skip(skip).limit(limit);
+
+        res.json({data : users});
+
     }catch(err){
         res.status(400).send("ERR: " + err);
     }
