@@ -90,7 +90,6 @@ requestRouter.post(
 
       //changing the status if all ore ok
       requestconnection.Status = status;
-      console.log(requestconnection);
       //save to the database
       const data = await requestconnection.save();
 
